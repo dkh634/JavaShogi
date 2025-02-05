@@ -9,5 +9,4 @@ public class JavaShogiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JavaShogiApplication.class, args);
 	}
-
 }
