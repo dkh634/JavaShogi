@@ -15,9 +15,10 @@ public class LoginController {
     }
 	
 	 @PostMapping("/login")
-	    public String processLogin() {
+	    public String processLogin(Model model, LoginForm loginForm) {
 	        // ログイン処理（ここでは簡略化）
-	        return "redirect:/home"; // 成功時にリダイレクト
+			model.addAttribute("loginUser", loginForm);
+	        return "home"; // 成功時にリダイレクト
 	    }
 	
 }
