@@ -10,5 +10,11 @@ public class LoginController {
     public String login() {
         return "login";
     }
+    
+    @GetMapping("/home")
+    public String home() {
+        return "home";  // src/main/resources/templates/home.html を返す（Thymeleafなどを使う場合）
+    }
+   
 
 }
