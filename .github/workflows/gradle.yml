@@ -43,6 +43,9 @@ jobs:
       - name: Build and Test
         run: ./gradlew clean build --info
 
+      - name: Generate code coverage report
+        run: ./gradlew jacocoTestReport
+
       - name: Analyze with SonarCloud
         if: env.SONAR_TOKEN != ''
         env:
