@@ -47,15 +47,18 @@ jobs:
         run: ./gradlew jacocoTestReport
 
       - name: Analyze with SonarCloud
-        if: ${{ secrets.SONAR_TOKEN != '' }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew sonarqube \
-            -Dsonar.projectKey=dkh634_JavaShogi \
-            -Dsonar.organization=dkh634 \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} \
-            -Dsonar.pullrequest.branch=${{ github.head_ref }} \
-            -Dsonar.pullrequest.base=${{ github.base_ref }}
+          if [ -n "$SONAR_TOKEN" ]; then
+            ./gradlew sonarqube \
+              -Dsonar.projectKey=dkh634_JavaShogi \
+              -Dsonar.organization=dkh634 \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.login=$SONAR_TOKEN \
+              -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} \
+              -Dsonar.pullrequest.branch=${{ github.head_ref }} \
+              -Dsonar.pullrequest.base=${{ github.base_ref }}
+          else
+            echo "SONAR_TOKEN is not set, skipping SonarCloud analysis."
+          fi
