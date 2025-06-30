@@ -39,18 +39,14 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-        working-directory: JavaShogi
 
       - name: Build and Test
         run: ./gradlew clean build --info
-        working-directory: JavaShogi
 
       - name: Generate code coverage report
         run: ./gradlew jacocoTestReport
-        working-directory: JavaShogi
 
       - name: Analyze with SonarCloud
-        working-directory: JavaShogi
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
