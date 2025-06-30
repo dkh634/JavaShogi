@@ -1,5 +1,6 @@
 package com.example.JavaShogi.config;
-import static org.springframework.security.config.Customizer.*;
+
+import static org.springframework.security.config.Customizer.withDefaults;  // 必要なstatic importを明示的に
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,43 +17,40 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-  
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf
-			      .ignoringRequestMatchers("/api/**")
-			    )
-			  .authorizeHttpRequests(auth -> auth
-			    .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/public/**").permitAll()
-			    .anyRequest().authenticated()
-			  );
 
-			http.httpBasic(withDefaults());
-			http.formLogin(form -> form
-			    .loginPage("/login")
-			    .defaultSuccessUrl("/home", true)
-			    .permitAll()
-			);
-			http.logout(logout -> logout.permitAll());
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf
+                  .ignoringRequestMatchers("/api/**")
+                )
+              .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/public/**").permitAll()
+                .anyRequest().authenticated()
+              );
 
-			return http.build();
+        http.httpBasic(withDefaults());
+        http.formLogin(form -> form
+            .loginPage("/login")
+            .defaultSuccessUrl("/home", true)
+            .permitAll()
+        );
+        http.logout(logout -> logout.permitAll());
 
-	}
+        return http.build();
+    }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+      return new BCryptPasswordEncoder();
+    }
 
-  
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-  
-  @Bean
-  public UserDetailsService userDetailsService() {
-      UserDetails user = User.withUsername("user")
-              .password(passwordEncoder().encode("password"))
-              .roles("USER")
-              .build();
-      return new InMemoryUserDetailsManager(user);
-  }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.withUsername("user")
+                .password(passwordEncoder().encode("password"))
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user);
+    }
 
 }
