@@ -27,7 +27,7 @@ public class SecurityConfig {
                   .ignoringRequestMatchers("/api/**")
                 )
               .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/public/**").permitAll()
+                .requestMatchers("/login","/game","/css/**", "/js/**", "/images/**", "/public/**").permitAll()
                 .anyRequest().authenticated()
               );
 
