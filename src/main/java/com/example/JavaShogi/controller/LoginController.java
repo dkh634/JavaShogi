@@ -13,7 +13,12 @@ public class LoginController {
     
     @GetMapping("/home")
     public String home() {
-        return "home";  // src/main/resources/templates/home.html を返す（Thymeleafなどを使う場合）
+        return "home";  
+    }
+    
+    @GetMapping("/searchkifu")
+    public String searchkifu() {
+    	return "searchkifu";
     }
    
 
